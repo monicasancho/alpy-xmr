@@ -5,7 +5,7 @@ ENV USERPASS=ppa
 ENV SSH_PORT=2022
 
 RUN adduser -S -D -H -G root -h /home $USERNAME \
- && echo "$USERNAME:USERPASS" | chpasswd
+ && echo "$USERNAME:$USERPASS" | chpasswd
 
 RUN apk --no-cache upgrade \
  && apk --no-cache add \
