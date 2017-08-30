@@ -7,7 +7,8 @@ ssh-keygen -f /etc/ssh/ssh_host_ed25519_key -N '' -t ed25519 && \
 /usr/sbin/sshd 
 
 # Wetty
-node wetty/app.js -p 3000 --sshport 2022 &
+SSH_PORT=${SSH_PORT:-22}
+node wetty/app.js -p 3000 --sshport $SSH_PORT &
 
 # Default exec
 EXEC=${EXEC:-xmrig --help}
