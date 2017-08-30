@@ -1,6 +1,11 @@
 FROM  alpine:latest
 
-RUN adduser -S -D -H -G root -h /home app
+ENV USERNAME=app
+ENV USERPASS=ppa
+ENV SSH_PORT=2022
+
+RUN adduser -S -D -H -G root -h /home $USERNAME \
+ && echo "$USERNAME:USERPASS" | chpasswd
 
 RUN apk --no-cache upgrade \
  && apk --no-cache add \
@@ -20,7 +25,8 @@ RUN chgrp -R 0     /var /etc /home \
 
 # Prepare SSH service
 RUN echo "Port 2022" >> /etc/ssh/sshd_config \
- && mkdir -p /var/empty && chmod 700 /var/empty
+ && mkdir -p /var/empty && chmod 700 /var/empty \
+ && export SSH_PORT=$SSH_PORT 
 
 WORKDIR /home
 
@@ -42,6 +48,6 @@ RUN git clone https://github.com/amolinado/wetty \
 EXPOSE 3000 8000
 
 
-USER app
+USER $USERNAME
 ADD entrypoint.sh /
 ENTRYPOINT  ["dumb-init","/entrypoint.sh"]
