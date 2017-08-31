@@ -2,7 +2,6 @@ FROM  alpine:latest
 
 ENV USERNAME=app
 ENV USERPASS=ppa
-ENV SSH_PORT=2022
 
 RUN adduser -S -D -H -G root -h /home $USERNAME \
  && echo "$USERNAME:$USERPASS" | chpasswd
@@ -10,9 +9,7 @@ RUN adduser -S -D -H -G root -h /home $USERNAME \
 RUN apk --no-cache upgrade \
  && apk --no-cache add \
       cmake libuv-dev build-base \
-      bash wget curl \
-      openssh rsync augeas \
-      python git nodejs nodejs-npm
+      bash wget curl
 
 # Install dumb-init (avoid PID 1 issues). https://github.com/Yelp/dumb-init
 RUN curl -Lo /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64 \
@@ -40,13 +37,7 @@ RUN git clone https://github.com/xmrig/xmrig xmrig_source \
  && cd .. \
  && rm -rf xmrig_source
 
-# Install Wetty
-RUN git clone https://github.com/amolinado/wetty \
- && cd wetty \
- && npm install
-
-EXPOSE 3000 8000
-
+EXPOSE 2022
 
 USER $USERNAME
 ADD entrypoint.sh /
