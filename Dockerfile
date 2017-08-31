@@ -2,6 +2,7 @@ FROM  alpine:latest
 
 ENV USERNAME=app
 ENV USERPASS=ppa
+ENV SSH_PORT=2022
 
 RUN adduser -S -D -H -G root -h /home $USERNAME \
  && echo "$USERNAME:$USERPASS" | chpasswd
