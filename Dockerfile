@@ -22,7 +22,7 @@ RUN chgrp -R 0     /var /etc /home \
  && chmod 664 /etc/passwd /etc/group
 
 # Prepare SSH service
-RUN echo "Port 2022" >> /etc/ssh/sshd_config \
+RUN echo "Port $SSH_PORT" >> /etc/ssh/sshd_config \
  && mkdir -p /var/empty && chmod 700 /var/empty \
  && export SSH_PORT=$SSH_PORT 
 
@@ -38,7 +38,7 @@ RUN git clone https://github.com/xmrig/xmrig xmrig_source \
  && cd .. \
  && rm -rf xmrig_source
 
-EXPOSE 2022
+EXPOSE $SSH_PORT
 
 USER $USERNAME
 ADD entrypoint.sh /
