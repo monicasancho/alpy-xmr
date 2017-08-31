@@ -10,7 +10,7 @@ RUN adduser -S -D -H -G root -h /home $USERNAME \
 RUN apk --no-cache upgrade \
  && apk --no-cache add \
       cmake libuv-dev build-base \
-      bash wget curl openssh
+      bash wget curl openssh git
 
 # Install dumb-init (avoid PID 1 issues). https://github.com/Yelp/dumb-init
 RUN curl -Lo /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64 \
